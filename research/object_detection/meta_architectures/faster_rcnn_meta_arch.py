@@ -1287,7 +1287,7 @@ class FasterRCNNMetaArch(model.DetectionModel):
       proposal_boxes = tf.stop_gradient(proposal_boxes)
       if not self._hard_example_miner:
         (groundtruth_boxlists, groundtruth_classes_with_background_list, _,
-         groundtruth_weights_list
+         groundtruth_weights_list, _
         ) = self._format_groundtruth_data(true_image_shapes)
         (proposal_boxes, proposal_scores,
          num_proposals) = self._sample_box_classifier_batch(
@@ -1456,8 +1456,14 @@ class FasterRCNNMetaArch(model.DetectionModel):
         groundtruth_weights = tf.ones(num_gt)
         groundtruth_weights_list.append(groundtruth_weights)
 
+    if self.groundtruth_has_field(fields.BoxListFields.class_indices):
+      groundtruth_class_indices_list = self.groundtruth_lists(
+          fields.BoxListFields.class_indices)
+    else:
+      groundtruth_class_indices_list = None
+
     return (groundtruth_boxlists, groundtruth_classes_with_background_list,
-            groundtruth_masks_list, groundtruth_weights_list)
+            groundtruth_masks_list, groundtruth_weights_list, groundtruth_class_indices_list)
 
   def _sample_box_classifier_minibatch_single_image(
       self, proposal_boxlist, num_valid_proposals, groundtruth_boxlist,
@@ -1688,7 +1694,7 @@ class FasterRCNNMetaArch(model.DetectionModel):
     """
     with tf.name_scope(scope, 'Loss', prediction_dict.values()):
       (groundtruth_boxlists, groundtruth_classes_with_background_list,
-       groundtruth_masks_list, groundtruth_weights_list
+       groundtruth_masks_list, groundtruth_weights_list, groundtruth_class_indices_list
       ) = self._format_groundtruth_data(true_image_shapes)
       loss_dict = self._loss_rpn(
           prediction_dict['rpn_box_encodings'],
@@ -1705,6 +1711,7 @@ class FasterRCNNMetaArch(model.DetectionModel):
                 groundtruth_boxlists,
                 groundtruth_classes_with_background_list,
                 groundtruth_weights_list,
+                groundtruth_class_indices_list,
                 prediction_dict['image_shape'],
                 prediction_dict.get('mask_predictions'),
                 groundtruth_masks_list,
@@ -1809,6 +1816,7 @@ class FasterRCNNMetaArch(model.DetectionModel):
                            groundtruth_boxlists,
                            groundtruth_classes_with_background_list,
                            groundtruth_weights_list,
+                           groundtruth_class_indices_list,
                            image_shape,
                            prediction_masks=None,
                            groundtruth_masks_list=None):
@@ -1929,6 +1937,7 @@ class FasterRCNNMetaArch(model.DetectionModel):
               class_predictions_with_background,
               batch_cls_targets_with_background,
               weights=batch_cls_weights,
+              class_indices=groundtruth_class_indices_list,
               losses_mask=losses_mask),
           ndims=2) / normalizer
 
