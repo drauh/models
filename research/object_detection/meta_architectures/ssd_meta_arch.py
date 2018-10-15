@@ -720,6 +720,9 @@ class SSDMetaArch(model.DetectionModel):
       weights = None
       if self.groundtruth_has_field(fields.BoxListFields.weights):
         weights = self.groundtruth_lists(fields.BoxListFields.weights)
+      class_indices = None
+      if self.groundtruth_has_field(fields.BoxListFields.class_indices):
+        class_indices = self.groundtruth_lists(fields.BoxListFields.class_indices)
       (batch_cls_targets, batch_cls_weights, batch_reg_targets,
        batch_reg_weights, match_list) = self._assign_targets(
            self.groundtruth_lists(fields.BoxListFields.boxes),
@@ -760,6 +763,7 @@ class SSDMetaArch(model.DetectionModel):
           prediction_dict['class_predictions_with_background'],
           batch_cls_targets,
           weights=batch_cls_weights,
+          class_indices=class_indices,
           losses_mask=losses_mask)
 
       if self._expected_classification_loss_under_sampling:

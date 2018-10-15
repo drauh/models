@@ -224,6 +224,7 @@ def pad_input_data_to_static_shapes(tensor_dict, max_num_boxes, num_classes,
       fields.InputDataFields.groundtruth_group_of: [max_num_boxes],
       fields.InputDataFields.groundtruth_area: [max_num_boxes],
       fields.InputDataFields.groundtruth_weights: [max_num_boxes],
+      fields.InputDataFields.groundtruth_class_indices: [num_classes],
       fields.InputDataFields.num_groundtruth_boxes: [],
       fields.InputDataFields.groundtruth_label_types: [max_num_boxes],
       fields.InputDataFields.groundtruth_label_scores: [max_num_boxes],
@@ -303,7 +304,8 @@ def _get_labels_dict(input_dict):
       fields.InputDataFields.num_groundtruth_boxes,
       fields.InputDataFields.groundtruth_boxes,
       fields.InputDataFields.groundtruth_classes,
-      fields.InputDataFields.groundtruth_weights
+      fields.InputDataFields.groundtruth_weights,
+      fields.InputDataFields.groundtruth_class_indices
   ]
   labels_dict = {}
   for key in required_label_keys:
@@ -422,6 +424,9 @@ def create_train_input_fn(train_config, train_input_config,
         labels[fields.InputDataFields.groundtruth_weights] is a
           [batch_size, num_boxes] float32 tensor containing groundtruth weights
           for the boxes.
+        labels[fields.InputDataFields.groundtruth_class_indices] is a
+          [batch_size, num_classes] float32 tensor containing groundtruth weights
+          for the classes.
         -- Optional --
         labels[fields.InputDataFields.groundtruth_instance_masks] is a
           [batch_size, num_boxes, H, W] float32 tensor containing only binary

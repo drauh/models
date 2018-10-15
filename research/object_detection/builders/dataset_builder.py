@@ -83,7 +83,7 @@ def read_dataset(file_read_func, input_files, config):
   return records_dataset
 
 
-def build(input_reader_config, batch_size=None, transform_input_data_fn=None):
+def build(input_reader_config, num_classes=None, batch_size=None, transform_input_data_fn=None):
   """Builds a tf.data.Dataset.
 
   Builds a tf.data.Dataset by applying the `transform_input_data_fn` on all

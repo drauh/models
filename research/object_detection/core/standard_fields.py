@@ -61,6 +61,7 @@ class InputDataFields(object):
     groundtruth_keypoint_visibilities: ground truth keypoint visibilities.
     groundtruth_label_scores: groundtruth label scores.
     groundtruth_weights: groundtruth weight factor for bounding boxes.
+    groundtruth_class_indices: groundtruth weight factor for classes.
     num_groundtruth_boxes: number of groundtruth boxes.
     is_annotated: whether an image has been labeled or not.
     true_image_shapes: true shapes of images in the resized images, as resized
@@ -93,6 +94,7 @@ class InputDataFields(object):
   groundtruth_keypoint_visibilities = 'groundtruth_keypoint_visibilities'
   groundtruth_label_scores = 'groundtruth_label_scores'
   groundtruth_weights = 'groundtruth_weights'
+  groundtruth_class_indices = 'groundtruth_class_indices'
   num_groundtruth_boxes = 'num_groundtruth_boxes'
   is_annotated = 'is_annotated'
   true_image_shape = 'true_image_shape'
@@ -144,6 +146,7 @@ class BoxListFields(object):
   classes = 'classes'
   scores = 'scores'
   weights = 'weights'
+  class_indices = 'class_indices'
   objectness = 'objectness'
   masks = 'masks'
   boundaries = 'boundaries'

@@ -205,6 +205,8 @@ class TfExampleDecoder(data_decoder.DataDecoder):
             tf.VarLenFeature(tf.int64),
         'image/object/weight':
             tf.VarLenFeature(tf.float32),
+        'image/object/class_indices':
+            tf.VarLenFeature(tf.int64),
     }
     # We are checking `dct_method` instead of passing it directly in order to
     # ensure TF version 1.6 compatibility.
@@ -251,6 +253,8 @@ class TfExampleDecoder(data_decoder.DataDecoder):
             slim_example_decoder.Tensor('image/object/group_of')),
         fields.InputDataFields.groundtruth_weights: (
             slim_example_decoder.Tensor('image/object/weight')),
+        fields.InputDataFields.groundtruth_class_indices: (
+            slim_example_decoder.Tensor('image/object/class_indices')),
     }
     if num_additional_channels > 0:
       self.keys_to_features[
