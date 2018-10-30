@@ -35,6 +35,8 @@ flags.DEFINE_boolean('eval_training_data', False,
                      'If training data should be evaluated for this job. Note '
                      'that one call only use this in eval-only mode, and '
                      '`checkpoint_dir` must be supplied.')
+flags.DEFINE_integer('save_checkpoints_secs', 600, 'Number of seconds betwenn'
+                     'two checkpoints')
 flags.DEFINE_integer('sample_1_of_n_eval_examples', 1, 'Will sample one of '
                      'every n eval input examples, where n is provided.')
 flags.DEFINE_integer('sample_1_of_n_eval_on_train_examples', 5, 'Will sample '
@@ -59,7 +61,8 @@ FLAGS = flags.FLAGS
 def main(unused_argv):
   flags.mark_flag_as_required('model_dir')
   flags.mark_flag_as_required('pipeline_config_path')
-  config = tf.estimator.RunConfig(model_dir=FLAGS.model_dir)
+  config = tf.estimator.RunConfig(model_dir=FLAGS.model_dir,
+                                  save_checkpoints_secs=FLAGS.save_checkpoints_secs)
 
   train_and_eval_dict = model_lib.create_estimator_and_inputs(
       run_config=config,
