@@ -35,7 +35,7 @@ flags.DEFINE_boolean('eval_training_data', False,
                      'If training data should be evaluated for this job. Note '
                      'that one call only use this in eval-only mode, and '
                      '`checkpoint_dir` must be supplied.')
-flags.DEFINE_integer('save_checkpoints_secs', 600, 'Number of seconds betwenn'
+flags.DEFINE_integer('save_checkpoints_secs', 600, 'Number of seconds between'
                      'two checkpoints')
 flags.DEFINE_integer('sample_1_of_n_eval_examples', 1, 'Will sample one of '
                      'every n eval input examples, where n is provided.')
@@ -53,8 +53,7 @@ flags.DEFINE_string(
     'writing resulting metrics to `model_dir`.')
 flags.DEFINE_boolean(
     'run_once', False, 'If running in eval-only mode, whether to run just '
-    'one round of eval vs running continuously (default).'
-)
+    'one round of eval vs running continuously (default).')
 FLAGS = flags.FLAGS
 
 
