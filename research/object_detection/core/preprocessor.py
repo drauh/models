@@ -2382,6 +2382,23 @@ def resize_image(image,
     return result
 
 
+# TODO(alirezafathi): Investigate if instead the function should return None if
+# masks is None.
+# pylint: disable=g-doc-return-or-yield
+def not_resize_image(image,
+                     masks=None):
+  with tf.name_scope(
+      'NotResizeImage',
+      values=[image]):
+    image_shape = shape_utils.combined_static_and_dynamic_shape(image)
+    result = [image]
+    if masks is not None:
+      result.append(masks)
+
+    result.append(tf.stack([image_shape[0], image_shape[1], image_shape[2]]))
+    return result
+
+
 def subtract_channel_mean(image, means=None):
   """Normalizes an image by subtracting a mean from each channel.
 

@@ -8,6 +8,7 @@ message ImageResizer {
   oneof image_resizer_oneof {
     KeepAspectRatioResizer keep_aspect_ratio_resizer = 1;
     FixedShapeResizer fixed_shape_resizer = 2;
+    NoResizer no_resizer = 3;
   }
 }
 
@@ -56,4 +57,8 @@ message FixedShapeResizer {
 
   // Whether to also resize the image channels from 3 to 1 (RGB to grayscale).
   optional bool convert_to_grayscale = 4 [default = false];
+}
+
+// Configuration proto for image resizer that do nothing.
+message NoResizer {
 }

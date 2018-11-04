@@ -102,6 +102,8 @@ def build(image_resizer_config):
         method=method)
     if not fixed_shape_resizer_config.convert_to_grayscale:
       return image_resizer_fn
+  elif image_resizer_oneof == 'no_resizer':
+    return preprocessor.not_resize_image
   else:
     raise ValueError(
         'Invalid image resizer option: \'%s\'.' % image_resizer_oneof)

@@ -73,6 +73,8 @@ def get_spatial_image_size(image_resizer_config):
       return [image_resizer_config.keep_aspect_ratio_resizer.max_dimension] * 2
     else:
       return [-1, -1]
+  if image_resizer_config.HasField("no_resizer"):
+    return [-1, -1]
   raise ValueError("Unknown image resizer type.")
 
 
