@@ -37,6 +37,8 @@ flags.DEFINE_boolean('eval_training_data', False,
                      '`checkpoint_dir` must be supplied.')
 flags.DEFINE_integer('save_checkpoints_secs', 600, 'Number of seconds between'
                      'two checkpoints')
+flags.DEFINE_integer('keep_checkpoints_hours', 2, 'Number of hours between'
+                     'two kept checkpoints')
 flags.DEFINE_integer('sample_1_of_n_eval_examples', 1, 'Will sample one of '
                      'every n eval input examples, where n is provided.')
 flags.DEFINE_integer('sample_1_of_n_eval_on_train_examples', 5, 'Will sample '
@@ -61,7 +63,8 @@ def main(unused_argv):
   flags.mark_flag_as_required('model_dir')
   flags.mark_flag_as_required('pipeline_config_path')
   config = tf.estimator.RunConfig(model_dir=FLAGS.model_dir,
-                                  save_checkpoints_secs=FLAGS.save_checkpoints_secs)
+                                  save_checkpoints_secs=FLAGS.save_checkpoints_secs,
+                                  keep_checkpoint_every_n_hours=FLAGS.keep_checkpoints_hours)
 
   train_and_eval_dict = model_lib.create_estimator_and_inputs(
       run_config=config,
