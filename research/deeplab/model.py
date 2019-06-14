@@ -277,6 +277,8 @@ def multi_scale_logits(images,
           images, scaled_crop_size, align_corners=True)
       if model_options.crop_size:
         scaled_images.set_shape([None, scaled_height, scaled_width, 3])
+      else:
+        scaled_crop_size = None
     else:
       scaled_crop_size = model_options.crop_size
       scaled_images = images

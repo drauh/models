@@ -138,7 +138,9 @@ class ModelOptions(
               outputs_to_num_classes,
               crop_size=None,
               atrous_rates=None,
-              output_stride=8):
+              output_stride=8,
+              decoder_output_stride=None,
+              model_variant=None):
     """Constructor to set default values.
 
     Args:
@@ -156,14 +158,18 @@ class ModelOptions(
     if FLAGS.dense_prediction_cell_json:
       with tf.gfile.Open(FLAGS.dense_prediction_cell_json, 'r') as f:
         dense_prediction_cell_config = json.load(f)
+    if decoder_output_stride is None:
+      decoder_output_stride = FLAGS.decoder_output_stride
+    if model_variant is None:
+      model_variant = FLAGS.model_variant
 
     return super(ModelOptions, cls).__new__(
         cls, outputs_to_num_classes, crop_size, atrous_rates, output_stride,
         FLAGS.merge_method, FLAGS.add_image_level_feature,
         FLAGS.image_pooling_crop_size, FLAGS.aspp_with_batch_norm,
         FLAGS.aspp_with_separable_conv, FLAGS.multi_grid,
-        FLAGS.decoder_output_stride, FLAGS.decoder_use_separable_conv,
-        FLAGS.logits_kernel_size, FLAGS.model_variant, FLAGS.depth_multiplier,
+        decoder_output_stride, FLAGS.decoder_use_separable_conv,
+        FLAGS.logits_kernel_size, model_variant, FLAGS.depth_multiplier,
         dense_prediction_cell_config)
 
   def __deepcopy__(self, memo):
