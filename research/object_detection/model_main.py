@@ -37,8 +37,8 @@ flags.DEFINE_boolean('eval_training_data', False,
                      '`checkpoint_dir` must be supplied.')
 flags.DEFINE_integer('save_checkpoints_secs', 600, 'Number of seconds between'
                      'two checkpoints')
-flags.DEFINE_integer('keep_checkpoints_hours', 2, 'Number of hours between'
-                     'two kept checkpoints')
+flags.DEFINE_float('keep_checkpoints_hours', 2, 'Number of hours between'
+                   'two kept checkpoints')
 flags.DEFINE_integer('sample_1_of_n_eval_examples', 1, 'Will sample one of '
                      'every n eval input examples, where n is provided.')
 flags.DEFINE_integer('sample_1_of_n_eval_on_train_examples', 5, 'Will sample '
